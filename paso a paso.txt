@@ -1,0 +1,72 @@
+1- Build Gradle - implementation 'com.google.andorid.gms:play-services-maps:18.1.0'
+2- Manifest 
+
+<meta-data
+	android:name: "com.google.android.gsm.geo.API_KEY
+	android:value=""
+/>
+
+3- Acceder a google cloud console -> Crear proyecto -> API y Servicios -> Mapa SDK for Android -> Generar
+4- Credenciales - > + Crear Credenciales
+
+5- activity_main.xml - Crear 2 EditText (altitud y latitud)
+
+6- <fragment
+	android:id="@+id/map"
+	android:name="com.google.android.gms.maps.SupportMapFragment"
+	android:layout_width:"match_parent"
+	android:layout_height:"300dp"
+	map:cameraZoom:"10" => crear nameSpace copiando del xmlns
+	map:uiRotateGestures="true"
+	map:uiZoomControls="true"
+
+7- Main Activity
+
+	EditText txtLatitud, txtLongitud;
+	GoogleMap mMap;
+	
+
+onCreate(){
+
+	txtLatitud = findViewById(R.id.txtLatitud);
+	txtLongitud= findViewById(R.id.txtLongitud);
+
+	SupportMapFragment mapFragment = getSupportFragmentManager().findFragmentById(R.id.map); => castear
+	mapFragment.getMapsAsync(this);
+
+8 - Implements OnMapReadyCallback => Añade onMapReady()
+
+9 - onMapReady(GoogleMap googleMap){
+	mMap = googleMap;
+	this.mMap.setOnClickListener(this); => implementar onMapClick()
+	this.mMap.setOnMapLongClickListener(this); => implementar onMapLongClick()
+
+	LatLng estatuaGeneralPrim = new LatLng(41.1561664, 1.1067384)  => copiar despues de la @ en la URL, lo detecta automaticamente
+	mMap.addMaker(new MarkerOptions().position(estatuaGeneralPrim).title("Estatua del General Prim"));
+	
+	// Para hacer ZOOM a la posicion
+	mMap.moveCamera(CameraUpdateFactory.newLatLng(estatuaGeneralPrim);
+}
+
+10 - onMapClick(){
+	txtLatitud.setText("" + latLng.latitude)
+	txtLongitud.setText("" + latLng.longitude)
+
+	// Evitar multiples marcadores
+	mMap.clear();
+	LatLng posicion = new LatLng(latLng.latitude, latLng.longitude);
+	mMap.addMarker(newMarkerOptions().position(mexico).title(""));
+	mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion);
+}
+
+11 - onMapLongClick(){
+	txtLatitud.setText("" + latLng.latitude)
+	txtLongitud.setText("" + latLng.longitude)
+
+	// Evitar multiples marcadores
+	mMap.clear();
+	LatLng posicion = new LatLng(latLng.latitude, latLng.longitude);
+	mMap.addMarker(newMarkerOptions().position(mexico).title(""));
+	mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion);
+}
+
